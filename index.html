@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Leasing Calculator | Premium Financing Solutions</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+     
+    :root {
+      --primary: #2A4365;
+      --primary-light: #3182CE;
+      --secondary: #2C5282;
+      --accent: #C53030;
+      --light: #F7FAFC;
+      --dark: #1A202C;
+      --gray: #718096;
+      --light-gray: #E2E8F0;
+      --border: 1px solid #E2E8F0;
+      --radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --transition: all 0.2s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #F8F9FA;
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .calculator-container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .calculator-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .calculator-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .calculator-header p {
+      color: var(--gray);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .calculator-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .calculator-sidebar {
+      background: var(--primary);
+      color: white;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      margin-bottom: 30px;
+    }
+
+    .sidebar-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .sidebar-header p {
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .benefits-list {
+      margin-top: auto;
+    }
+
+    .benefits-list h3 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .benefit-icon {
+      margin-right: 12px;
+      color: var(--primary-light);
+    }
+
+    .calculator-body {
+      padding: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .currency-symbol {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: 500;
+      color: var(--gray);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 15px 12px 35px;
+      border: var(--border);
+      border-radius: var(--radius);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    }
+
+    .range-slider {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .range-values {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .term-options {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .term-option {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      background: white;
+      border: var(--border);
+      border-radius: var(--radius);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .term-option:hover {
+      border-color: var(--primary-light);
+    }
+
+    .term-option.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .results-container {
+      background: var(--light);
+      border-radius: var(--radius);
+      padding: 25px;
+      margin-top: 30px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: var(--border);
+    }
+
+    .results-header h3 {
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .result-label {
+      color: var(--gray);
+    }
+
+    .result-value {
+      font-weight: 600;
+    }
+
+    .monthly-payment {
+      color: var(--primary);
+      font-size: 1.3rem;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 25px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .action-btn:hover {
+      background: var(--secondary);
+    }
+
+    .disclaimer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    /* Enhanced Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease-out;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background: white;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 450px;
+      transform: translateY(20px) scale(0.98);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .modal-overlay.active .modal-container {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .modal-header {
+      background: var(--primary);
+      color: white;
+      padding: 20px 25px;
+      border-bottom: var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.4rem;
+      color: white;
+      margin: 0;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: white;
+      padding: 0;
+      transition: var(--transition);
+    }
+
+    .close-btn:hover {
+      color: var(--light-gray);
+    }
+
+    .modal-body {
+      padding: 25px;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .modal-body .form-group {
+      margin-bottom: 20px;
+    }
+
+    .modal-body .form-label {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .modal-body .form-input {
+      padding: 12px 15px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      width: 100%;
+      transition: all 0.2s;
+    }
+
+    .modal-body .form-input:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    }
+
+    .modal-body .form-input[readonly] {
+      background-color: #f8fafc;
+      border-color: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .input-group .currency-symbol {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+
+    .input-group .form-input {
+      padding-left: 35px;
+    }
+
+    .submit-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .submit-btn:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    .submit-btn i {
+      margin-right: 8px;
+    }
+
+    /* Success Message */
+    .success-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background: white;
+      padding: 40px;
+      border-radius: var(--radius);
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 1001;
+      max-width: 90%;
+    }
+
+    .success-message.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .success-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .success-message h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .success-message p {
+      color: var(--gray);
+      margin-bottom: 25px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .calculator-card {
+        grid-template-columns: 1fr;
+      }
+      
+      .calculator-sidebar {
+        padding: 30px;
+      }
+      
+      .calculator-body {
+        padding: 30px;
+      }
+      
+      .calculator-header h1 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .term-options {
+        flex-direction: column;
+      }
+      
+      .calculator-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .modal-container {
+        width: 95%;
+      }
+      
+      .modal-body {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator-container">
+    <div class="calculator-header">
+
+    </div>
+    
+    <div class="calculator-card">
+      <div class="calculator-sidebar">
+        <div class="sidebar-header">
+          <h2>Why Choose Our Leasing?</h2>
+          <p>Premium financing solutions for your business needs</p>
+        </div>
+        
+        <div class="benefits-list">
+          <h3>Key Benefits:</h3>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+              <h4>Tax Advantages</h4>
+              <p>Potential tax benefits through lease payments</p>
+            </div>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-cogs"></i>
+            </div>
+            <div>
+              <h4>Flexible Terms</h4>
+              <p>Customizable 12-60 month lease periods</p>
+            </div>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div>
+              <h4>Fixed Rates</h4>
+              <p>Competitive fixed rates for budgeting certainty</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="calculator-body">
+        <div class="form-group">
+          <label class="form-label">Total Invoice Amount (ex GST)</label>
+          <div class="input-wrapper">
+            <span class="currency-symbol">$</span>
+            <input type="text" class="form-input" id="invoice-amount" value="50000" placeholder="Enter amount">
+          </div>
+          <input type="range" min="10000" max="500000" value="50000" step="1000" class="range-slider" id="value-slider">
+          <div class="range-values">
+            <span>$10,000</span>
+            <span>$500,000</span>
+          </div>
+        </div>
+        
+        <div class="results-container">
+          <div class="results-header">
+            <h3>Your Estimated Monthly Payments</h3>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">12 Month Term</span>
+            <span class="result-value" id="payment-12">$0.00</span>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">24 Month Term</span>
+            <span class="result-value" id="payment-24">$0.00</span>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">36 Month Term</span>
+            <span class="result-value" id="payment-36">$0.00</span>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">48 Month Term</span>
+            <span class="result-value" id="payment-48">$0.00</span>
+          </div>
+          
+          <div class="result-item">
+            <span class="result-label">60 Month Term</span>
+            <span class="result-value" id="payment-60">$0.00</span>
+          </div>
+        </div>
+        
+        <button class="action-btn" id="contact-btn">
+          <i class="fas fa-file-contract"></i> Request Proposal
+        </button>
+      </div>
+    </div>
+    
+    <p class="disclaimer">
+      <i class="fas fa-info-circle"></i> Rates shown are estimates. Final terms subject to credit approval.
+    </p>
+  </div>
+  
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Consult Our Leasing Expert</h3>
+        <button class="close-btn" id="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="proposal-form">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Business Email</label>
+            <input type="email" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Equipment Type</label>
+            <select class="form-input">
+              <option value="">Select equipment category</option>
+              <option value="technology">Technology/IT</option>
+              <option value="medical">Medical Equipment</option>
+              <option value="manufacturing">Manufacturing</option>
+              <option value="vehicles">Vehicles</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="privacy-agreement" required>
+            <label for="privacy-agreement">I agree to the <a href="#">privacy policy</a> and terms</label>
+          </div>
+          
+          <div class="form-footer">
+            <button type="submit" class="action-btn">
+              <i class="fas fa-paper-plane"></i> Submit Request
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Success Message -->
+  <div class="success-message" id="success-message">
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h3>Request Submitted</h3>
+    <p>Thank you for your interest. Our leasing specialist will contact you within 1 business day with your customized proposal.</p>
+    <button class="action-btn" id="close-success">Continue</button>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Elements
+      const valueInput = document.getElementById('invoice-amount');
+      const valueSlider = document.getElementById('value-slider');
+      const contactBtn = document.getElementById('contact-btn');
+      const modal = document.getElementById('modal');
+      const closeModal = document.getElementById('close-modal');
+      const proposalForm = document.getElementById('proposal-form');
+      const successMessage = document.getElementById('success-message');
+      const closeSuccess = document.getElementById('close-success');
+      
+      // Initialize calculator
+      calculatePayments();
+      
+      // Slider input
+      valueSlider.addEventListener('input', function() {
+        valueInput.value = this.value;
+        calculatePayments();
+      });
+      
+      // Text input
+      valueInput.addEventListener('input', function() {
+        // Format the input value
+        this.value = this.value.replace(/[^0-9.]/g, '');
+        valueSlider.value = this.value || 0;
+        calculatePayments();
+      });
+      
+      // Contact button
+      contactBtn.addEventListener('click', function() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+      
+      // Close modal
+      closeModal.addEventListener('click', function() {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
+      
+      // Form submission
+      proposalForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Hide modal and show success
+        modal.classList.remove('active');
+        successMessage.classList.add('active');
+        document.body.style.overflow = 'auto';
+        
+        // Reset form
+        proposalForm.reset();
+      });
+      
+      // Close success message
+      closeSuccess.addEventListener('click', function() {
+        successMessage.classList.remove('active');
+      });
+      
+      // Close modal when clicking outside
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      function calculatePayments() {
+        let invoiceAmount = parseFloat(document.getElementById("invoice-amount").value.replace(/[^0-9.]/g, '')) || 0;
+
+        let LRF = {
+            "10000-49999": { "12M": 0.09035, "24M": 0.04725, "36M": 0.03292, "48M": 0.02578, "60M": 0.02152 },
+            "50000-199999": { "12M": 0.09005, "24M": 0.04692, "36M": 0.03258, "48M": 0.02543, "60M": 0.02116 },
+            "200000-499999": { "12M": 0.08975, "24M": 0.04660, "36M": 0.03224, "48M": 0.02508, "60M": 0.02080 },
+            "500001+": { "12M": 0.08969, "24M": 0.04653, "36M": 0.03217, "48M": 0.02501, "60M": 0.02073 }
+        };
+
+        let selectedLRF;
+        if (invoiceAmount >= 10000 && invoiceAmount <= 49999) selectedLRF = LRF["10000-49999"];
+        else if (invoiceAmount >= 50000 && invoiceAmount <= 199999) selectedLRF = LRF["50000-199999"];
+        else if (invoiceAmount >= 200000 && invoiceAmount <= 499999) selectedLRF = LRF["200000-499999"];
+        else selectedLRF = LRF["500001+"];
+
+        // Format currency
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          minimumFractionDigits: 2
+        });
+
+        document.getElementById("payment-12").textContent = formatter.format(invoiceAmount * selectedLRF["12M"]);
+        document.getElementById("payment-24").textContent = formatter.format(invoiceAmount * selectedLRF["24M"]);
+        document.getElementById("payment-36").textContent = formatter.format(invoiceAmount * selectedLRF["36M"]);
+        document.getElementById("payment-48").textContent = formatter.format(invoiceAmount * selectedLRF["48M"]);
+        document.getElementById("payment-60").textContent = formatter.format(invoiceAmount * selectedLRF["60M"]);
+      }
+    });
+  </script>
+</body>
+</html>
